@@ -4,7 +4,9 @@
   "description": "Awesome project developed with TypeORM.",
   "license": "WTFPL",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/graphql": "^14.5.0",
+    "@types/jsonwebtoken": "^8.3.5",
     "@types/node": "^12.12.8",
     "dotenv": "^8.2.0",
     "eslint": "^6.6.0",
@@ -17,11 +19,14 @@
   },
   "dependencies": {
     "apollo-server-express": "^2.9.9",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "graphql": "^14.5.8",
+    "jsonwebtoken": "^8.5.1",
     "loggy": "^1.0.8",
     "pg": "^7.3.0",
     "reflect-metadata": "^0.1.10",
+    "type-graphql": "^0.17.5",
     "typeorm": "0.2.20"
   },
   "scripts": {
