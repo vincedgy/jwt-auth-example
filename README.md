@@ -21,6 +21,15 @@ You'll need :
 
 ## Create the server
 
+1. We create a 'server' directory and work in it
+
+```shell
+mkdir server
+cd server
+```
+
+Then we install the project using typeorm cli (handy in this case... bu we'll change many thing along the way)
+
 ```shell
 npx typeorm init --name server --database postgres
 ```
