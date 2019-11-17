@@ -1,24 +1,35 @@
-import 'reflect-metadata'
-import { createConnection } from 'typeorm'
-import { User } from './entity/User'
+import 'dotenv/config';
+import 'reflect-metadata';
+import logger from 'loggy';
+import express from 'express';
+import { ApolloServer } from 'apollo-server-express'
 
-import express from 'express'
-const app = express()
+const PORT = process.env.PORT || 4000;
 
-createConnection()
-  .then(async connection => {
-    console.log('Inserting a new user into the database...')
-    const user = new User()
-    user.firstName = 'Timber'
-    user.lastName = 'Saw'
-    user.age = 25
-    await connection.manager.save(user)
-    console.log('Saved a new user with id: ' + user.id)
+// Async main
+(async () => {
+  const app = express();
 
-    console.log('Loading users from the database...')
-    const users = await connection.manager.find(User)
-    console.log('Loaded users: ', users)
+  app.get('/', (_req, res) => {
+    res.send('UP');
+  });
 
-    console.log('Here you can setup and run express/koa/any other framework.')
+  const newApolloServer = new ApolloServer({
+    typeDefs: `
+      type Query {
+        hello: String!
+      }
+    `,
+    resolvers: {
+      Query: {
+        hello: () => 'hello !'
+      }
+    }
+
   })
-  .catch(error => console.log(error))
+
+
+  app.listen(PORT, () => {
+    logger.info(`🚀 Server's ready at http://localhost:${PORT}/`);
+  });
+})();

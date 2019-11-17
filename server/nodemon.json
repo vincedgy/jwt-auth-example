@@ -1,0 +1,17 @@
+{
+  "verbose": false,
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    "*.test.js"
+  ],
+  "execMap": {
+    "js": "ts-node src/index.ts"
+  },
+  "watch": ["./src"],
+  "ext": "ts,json",
+  "events": {
+    "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+  },
+  "delay": "2500"
+}

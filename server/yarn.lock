@@ -913,6 +913,11 @@ color-name@~1.1.4:
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
+colorette@~1.1:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/colorette/-/colorette-1.1.0.tgz#1f943e5a357fac10b4e0f5aaef3b14cdc1af6ec7"
+  integrity sha512-6S062WDQUXi6hOfkO/sBPVwE5ASXY4G2+b4atvhJfSsuUUhIaUKlkjLe9692Ipyt5/a+IPF5aVTu3V5gvXq5cg==
+
 component-emitter@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.3.0.tgz#16e4070fba8ae29b679f2215853ee181ab2eabc0"
@@ -2256,6 +2261,14 @@ lodash@^4.11.1, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.4:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
+loggy@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/loggy/-/loggy-1.0.8.tgz#82b3717b85d9d23090dd0367acfc2abc5fa6e4fb"
+  integrity sha512-3gXR0rOS4fnxVXGeiQID95/IML//jSbKx5T1GatifpzpOwDoOsTtlt25gosiBq27Mn4YnbzWB/DsKncnaLWKSg==
+  dependencies:
+    colorette "~1.1"
+    native-notifier "~0.1.6"
+
 long@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/long/-/long-4.0.0.tgz#9a7b71cfb7d361a194ea555241c92f7468d5bf28"
@@ -2458,6 +2471,13 @@ nanomatch@^1.2.9:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
+
+native-notifier@~0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/native-notifier/-/native-notifier-0.1.6.tgz#d98c306b28b327591a74f9819dac143c8e4bcd1d"
+  integrity sha512-BwRtjqhNsS2HpeVrNmERzQqZTFxR+MoJr/RdfCwZ0ODKyc/0EcHQhwnPwZr99gT1uHgRqbDk3C5fOo70TVYlcQ==
+  dependencies:
+    tag-shell "~0.1.0"
 
 natural-compare@^1.4.0:
   version "1.4.0"
@@ -3501,6 +3521,11 @@ table@^5.2.3:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
+tag-shell@~0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/tag-shell/-/tag-shell-0.1.0.tgz#e743816e6a6e805ac3735f4162e016b97a7ddfbd"
+  integrity sha1-50OBbmpugFrDc19BYuAWuXp9370=
+
 tar@^4:
   version "4.4.13"
   resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.13.tgz#43b364bc52888d555298637b10d60790254ab525"
@@ -3601,7 +3626,7 @@ ts-invariant@^0.4.0:
   dependencies:
     tslib "^1.9.3"
 
-ts-node@8.5.2:
+ts-node@^8.5.2:
   version "8.5.2"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.5.2.tgz#434f6c893bafe501a30b32ac94ee36809ba2adce"
   integrity sha512-W1DK/a6BGoV/D4x/SXXm6TSQx6q3blECUzd5TN+j56YEMX3yPVMpHsICLedUw3DvGF3aTQ8hfdR9AKMaHjIi+A==

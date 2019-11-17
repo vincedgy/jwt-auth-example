@@ -1,6 +1,3 @@
-// 20191117090257
-// https://raw.githubusercontent.com/vincedgy/graphql-tutorial/master/.eslintrc
-
 {
   "root": true,
   "env": {
