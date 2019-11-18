@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import logger from 'loggy';
 import {
   Resolver,
@@ -5,11 +6,16 @@ import {
   Mutation,
   Arg,
   ObjectType,
-  Field
+  Field,
+  Ctx
 } from 'type-graphql';
 import { User } from './entity/User';
-import { sign } from 'jsonwebtoken';
+import { sign, Secret } from 'jsonwebtoken';
 import { hash, compare } from 'bcryptjs';
+import { AppContext } from './AppContext';
+
+const SECRET: Secret = process.env.SECRET || '';
+const SECRET_REFRESH: Secret = process.env.SECRET_REFRESH || '';
 
 @ObjectType()
 export default class LoginResponse {
@@ -50,30 +56,28 @@ export class UserResolver {
   @Mutation(() => LoginResponse)
   async login(
     @Arg('email') email: string,
-    @Arg('password') password: string
-  ): Promise<LoginResponse> {
+    @Arg('password') password: string,
+    @Ctx() {res}: AppContext  ): Promise<LoginResponse> {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      throw new Error('Invalid login');
+      throw new Error('Invalid login or password !');
     }
 
     const valid = await compare(password, user.password);
     if (!valid) {
-      throw new Error('Invalid login');
+      throw new Error('Invalid login or password !!');
     }
 
     // login successful
+    res.cookie(
+        'jid',
+        sign( { userId: user.id, userEmail: user.email }, SECRET_REFRESH , { expiresIn: '7d' }),
+         { httpOnly: true }
+        )
 
     return {
-      accessToken: sign(
-        {
-          userId: user.id,
-          userEmail: user.email
-        },
-        'secret',
-        { expiresIn: '15m' }
-      )
+      accessToken: sign( { userId: user.id, userEmail: user.email }, SECRET, { expiresIn: '15m' })
     };
   }
 }

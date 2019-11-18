@@ -22,7 +22,9 @@ const PORT = process.env.PORT || 4000;
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
       resolvers: [UserResolver]
-    })
+    }),
+    // Request and Response are inside context so we can access from resolver !
+    context: ({res}) => ({res})
   });
 
   apolloServer.applyMiddleware({ app });
