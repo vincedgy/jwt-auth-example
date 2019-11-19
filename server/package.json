@@ -32,6 +32,6 @@
   "scripts": {
     "format": "prettier ./src/*.ts --write",
     "start": "ts-node src/index.ts",
-    "serve": "nodemon"
+    "serve": "LOGGY_STACKS=1 nodemon"
   }
 }

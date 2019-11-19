@@ -7,15 +7,14 @@ import {
   Arg,
   ObjectType,
   Field,
-  Ctx
+  Ctx,
+  UseMiddleware
 } from 'type-graphql';
 import { User } from './entity/User';
-import { sign, Secret } from 'jsonwebtoken';
 import { hash, compare } from 'bcryptjs';
 import { AppContext } from './AppContext';
-
-const SECRET: Secret = process.env.SECRET || '';
-const SECRET_REFRESH: Secret = process.env.SECRET_REFRESH || '';
+import { createAccessToken, createRefreshToken } from './auth';
+import { isAuth } from './isAuth';
 
 @ObjectType()
 export default class LoginResponse {
@@ -25,9 +24,12 @@ export default class LoginResponse {
 
 @Resolver()
 export class UserResolver {
+
   @Query(() => String)
-  hello() {
-    return 'hi !';
+  @UseMiddleware(isAuth)
+  whoami(@Ctx() {payload}: AppContext) {
+    logger.log(payload)
+    return `Hello ${payload!.userEmail}`;
   }
 
   @Query(() => [User])
@@ -57,7 +59,8 @@ export class UserResolver {
   async login(
     @Arg('email') email: string,
     @Arg('password') password: string,
-    @Ctx() {res}: AppContext  ): Promise<LoginResponse> {
+    @Ctx() { res }: AppContext
+  ): Promise<LoginResponse> {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
@@ -70,14 +73,10 @@ export class UserResolver {
     }
 
     // login successful
-    res.cookie(
-        'jid',
-        sign( { userId: user.id, userEmail: user.email }, SECRET_REFRESH , { expiresIn: '7d' }),
-         { httpOnly: true }
-        )
+    res.cookie( 'jid', createRefreshToken(user), { httpOnly: true });
 
     return {
-      accessToken: sign( { userId: user.id, userEmail: user.email }, SECRET, { expiresIn: '15m' })
-    };
+      accessToken : createAccessToken(user)
+    }
   }
 }

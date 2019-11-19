@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 4000;
       resolvers: [UserResolver]
     }),
     // Request and Response are inside context so we can access from resolver !
-    context: ({res}) => ({res})
+    context: ({res, req}) => ({res, req})
   });
 
   apolloServer.applyMiddleware({ app });
