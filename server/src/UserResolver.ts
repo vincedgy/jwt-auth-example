@@ -28,6 +28,9 @@ export class UserResolver {
   @Query(() => String)
   @UseMiddleware(isAuth)
   whoami(@Ctx() {payload}: AppContext) {
+    if (!payload) {
+      return (`Not authenticated`)
+    }
     logger.log(payload)
     return `Hello ${payload!.userEmail}`;
   }
