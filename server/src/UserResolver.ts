@@ -15,6 +15,9 @@ import { hash, compare } from 'bcryptjs';
 import { AppContext } from './AppContext';
 import { createAccessToken, createRefreshToken } from './auth';
 import { isAuth } from './isAuth';
+import { sendRefreshToken } from './sendRefreshToken';
+import { getConnection } from 'typeorm';
+import { Int } from 'type-graphql';
 
 @ObjectType()
 export default class LoginResponse {
@@ -24,14 +27,13 @@ export default class LoginResponse {
 
 @Resolver()
 export class UserResolver {
-
   @Query(() => String)
   @UseMiddleware(isAuth)
-  whoami(@Ctx() {payload}: AppContext) {
+  whoami(@Ctx() { payload }: AppContext) {
     if (!payload) {
-      return (`Not authenticated`)
+      return `Not authenticated`;
     }
-    logger.log(payload)
+    logger.log(payload);
     return `Hello ${payload!.userEmail}`;
   }
 
@@ -58,6 +60,14 @@ export class UserResolver {
     return true;
   }
 
+  @Mutation(() => Boolean)
+  async revokeRefreshTokensForUser(@Arg('userId', () => Int) userId: number) {
+    await getConnection()
+      .getRepository(User)
+      .increment({ id: userId }, 'tokenVersion', 1);
+    return true;
+  }
+
   @Mutation(() => LoginResponse)
   async login(
     @Arg('email') email: string,
@@ -65,7 +75,6 @@ export class UserResolver {
     @Ctx() { res }: AppContext
   ): Promise<LoginResponse> {
     const user = await User.findOne({ where: { email } });
-
     if (!user) {
       throw new Error('Invalid login or password !');
     }
@@ -76,10 +85,10 @@ export class UserResolver {
     }
 
     // login successful
-    res.cookie( 'jid', createRefreshToken(user), { httpOnly: true });
+    sendRefreshToken(res, createRefreshToken(user));
 
     return {
-      accessToken : createAccessToken(user)
-    }
+      accessToken: createAccessToken(user)
+    };
   }
 }
