@@ -7,11 +7,8 @@ import { buildSchema } from 'type-graphql';
 import { UserResolver } from './UserResolver';
 import { createConnection } from 'typeorm';
 import cookieParser from 'cookie-parser';
-import { verify, Secret } from 'jsonwebtoken';
-import { User } from './entity/User';
-import { createAccessToken, createRefreshToken } from './auth';
-import { sendRefreshToken } from './sendRefreshToken';
 import { Response, Request } from 'express';
+import { refreshToken } from './refreshToken';
 
 const PORT = process.env.PORT || 4000;
 
@@ -26,30 +23,7 @@ const PORT = process.env.PORT || 4000;
   });
 
   app.post('/refresh_token', async (req: Request, res: Response) => {
-    const REFRESH_TOKEN_SECRET: Secret = process.env.REFRESH_TOKEN_SECRET!;
-    const token = req.cookies.jid;
-    if (!token) {
-      return res.send({ ok: false, accessToken: '' });
-    }
-    let payload: any = null;
-    try {
-      payload = verify(token, REFRESH_TOKEN_SECRET);
-    } catch (err) {
-      logger.error(err);
-      return res.send({ ok: false, accessToken: '' });
-    }
-
-    // refresh token is valid
-    // and we can send back a refresh token
-    const user = await User.findOne({ id: payload.userId });
-    if (!user) {
-      return res.send({ ok: false, accessToken: '' });
-    }
-    if (user.tokenVersion !== payload.tokenVersion) {
-      return res.send({ ok: false, accessToken: '' });
-    }
-    sendRefreshToken(res, createRefreshToken(user));
-    return res.send({ ok: true, accessToken: createAccessToken(user) });
+    return refreshToken(req, res)
   });
 
   await createConnection();

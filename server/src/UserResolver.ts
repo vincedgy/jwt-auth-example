@@ -37,6 +37,11 @@ export class UserResolver {
     return `Hello ${payload!.userEmail}`;
   }
 
+  @Query(() => String)
+  hello() {
+    return "Hi !"
+  }
+
   @Query(() => [User])
   users() {
     return User.find();

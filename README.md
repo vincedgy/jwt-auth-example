@@ -143,3 +143,17 @@ curl -vvv 'http://localhost:4000/graphql' -H 'Content-Type: application/json' -H
 * Closing connection 0
 
 ```
+
+## The client
+
+Now that the server can auhenticate and give a token that can be validated and refreshen, let's walk through the client side by creating a new React application using typescript :
+
+```shell
+npx create-react-app web --typescript
+```
+
+The project will use also :
+
+- apollo-boost
+- @apollo/react-hooks
+- graphql
