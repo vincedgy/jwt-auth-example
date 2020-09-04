@@ -28,7 +28,7 @@
     "loggy": "^1.0.8",
     "pg": "^7.3.0",
     "reflect-metadata": "^0.1.10",
-    "type-graphql": "^0.17.5",
+    "type-graphql": "^0.17.6",
     "typeorm": "0.2.20"
   },
   "scripts": {
