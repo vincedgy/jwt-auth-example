@@ -22,7 +22,7 @@
     "apollo-server-express": "^2.9.9",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.4",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "graphql": "^14.5.8",
     "jsonwebtoken": "^8.5.1",
     "loggy": "^1.0.8",
